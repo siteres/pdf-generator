@@ -35,8 +35,9 @@ public class PDFtoBase64 {
         this.cordovaCallback = cordovaCallback;
     }
 
-    public void getAsBase64() {
-        try{
+    public void getAsBase64() {        
+        cordovaCallback.success(file.getAbsolutePath());
+        /*try{
             FileInputStream fileInputStreamReader = new FileInputStream(file);
             byte[] bytes = new byte[(int)file.length()];
             fileInputStreamReader.read(bytes);
@@ -55,7 +56,7 @@ public class PDFtoBase64 {
         } catch(IOException ex) {
              Log.e(TAG, "getAsBase64 Error in I/O: ", ex );
              cordovaCallback.error(IO_EXCEPTION);
-        }
+        }*/
     }
 
     public void process(final PrintDocumentAdapter printAdapter) {
@@ -126,7 +127,7 @@ public class PDFtoBase64 {
 
     private ParcelFileDescriptor getOutputFile() {
         try {
-            file = File.createTempFile(FILE_PREFIX, FILE_EXTENSION, ctx.getCacheDir());
+            file = File.createTempFile(FILE_PREFIX, ".pdf", ctx.getCacheDir()); // getExternalFilesDir(null)
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE);
         } catch (Exception e) {
             Log.e(TAG, "Failed to open ParcelFileDescriptor", e);
